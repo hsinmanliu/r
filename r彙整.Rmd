@@ -1,0 +1,439 @@
+---
+title: "r彙整"
+author: "H24071281_劉馨蔓"
+date: "2020/4/30"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+### 1.創建
+```{r}
+ x<-3
+ a<-c(3,4,2,7,10,23,8,9,11) ##新增序列
+ a
+ a[c(5,8)]<-a[c(8,5)] ##點交換順序
+ a
+ a[2:7]<-c(a[7:2]) ##一段序列交換順序
+ a
+```
+
+### 2.運算
+```{r}
+ 5 + 3
+ 5 * 3
+ 5 / 3
+ 5 ^ 3; 5 ** 3 ##次方
+ 5 %% 3 ##餘數
+ 5 %/% 3 ##商
+ 2^0.5; sqrt(2) ## 開根號
+ abs(-2) ##絕對值
+ exp(10)
+ log(2)
+ log2(2)
+ log(10, base = 10); log10(10) ##相等
+ log(10, base = exp(1)); log(10) ##相等
+ factorial(3) ##n!
+```
+
+### 3.製造序列
+```{r}
+ seq(1,5,1) ##創造一個1到5的序列，每個數的間隔為1
+ seq(1, 10, length.out = 6)##1到10的序列中共6個等差的值
+ rep(seq(1,5,1),rep(3,5)) ##對1到5的序列重複5次，但先對每個數字重複3次
+ more.colors<-c("red","yellow","blue","green","magenta","cyan")
+ color.vec<-more.colors[rep(seq(1,3),times=4)+rep(seq(0,3),each=3)]
+ color.vec
+ unique(color.vec) ##計算序列中總共有幾個不同的值
+ length(color.vec) ##算序列中有幾個值
+ table(color.vec) ##統計每個不同的值出現的次數
+ sort(color.vec,decreasing=TRUE) ##對序列排序，decrease:數字或字母從大排到小，increase數字或字母從小排到大
+ d<-c(3,4,2,7,10,23,8,9,11)
+ sort(d)
+ sort(d, decreasing=TRUE)#order get the position of the number not exactly the number
+ inc.order<-order(d)
+ inc.order
+ dec.order<-order(d,decreasing=TRUE)
+ dec.order#order:how to get the number not the position
+ d[inc.order]
+ d[dec.order]
+ d[dec.order][3]
+ d[order(d,decreasing=TRUE)[3]]
+ d[inc.order[length(d)-2]]
+ a<-c(T,T,F,T,F) ##T=TRUE,F=FALSE
+ length(a==TRUE)
+ sum(a) 
+ b<-c(2,NA,5,10)
+ ##用is來判斷
+ is.na(b)#是否有NA
+ which(is.na(b))#NA是第幾個
+ which(is.na(b)==1)
+ ind.T<-which(is.na(b))
+ b[-ind.T]#false
+ which(!(is.na(b)))
+ which(is.na(b)==0)
+ A<-c(3,4,NA,12,0.2,NA,-2)
+ B<-c(3,5,"red",4,NA)
+ c(is.numeric(A),is.character(A),is.numeric(B),is.character(B))#判斷是否為數字/字串
+ c(sum(is.na(A)),sum(is.na(B)))
+ c(which(is.na(A)),which(is.na(B)))
+ c(which(A<1),which(B<1))
+```
+
+### 4.統計
+```{r}
+ score0<-c(81.2,89.6,64.2,91.3,77.4,84.5,NA,91.7,63.5,84.8,
+            NA,87.8,87.9,80.9,74.8,64.3,78.7,91.3,76.9,74.9,87.6,88.4)
+ a<-c(mean(score0),max(score0),min(score0),sum(score0))
+ b<-c(mean(score0,na.rm=TRUE),max(score0,na.rm=TRUE),min(score0,na.rm=TRUE),sum(score0,na.rm=TRUE))
+ a;b#透過 na.rm=TRUE可以不計算NA值
+ x <- c(1:25)
+ y<-c(mean(x),var(x),median(x),quantile(x,c(0.1,0.5,0.7)))
+ y1<-summary(x)
+ x <- c(1:25, NA)
+ par(mfrow = c(1, 2))
+ boxplot(x)
+ hist(x)
+ runif(x)##random in uniform distribution
+ rnorm(100,mean=0,sd=1)
+ rm(x, y) ##拿掉x和y
+ objects() ##看存在的東西
+```
+
+### 5.近似值
+```{r}
+ round(125.78253)
+ round(125.78253, digits = 3)
+ round(125.78253, digits = -2)
+ round(83524587, digits = -3);   round(83524587, digits = -5)
+ signif(125.78253, digits = 2)
+ signif(83524587, digits = 3); signif(83524587, digits = 5)
+ floor(125.78253)
+ ceiling(125.78253)
+ trunc(125.78253)
+```
+
+### 6.矩陣
+```{r}
+ a <- 1:5; b <- 6:10;c <- 11:15; d <- 16:20
+ M1 <- rbind(a, b, c, d)
+ M2 <- cbind(a, b, c, d)
+ dim(M1)##算矩陣的維度
+ X <- 1:20
+ matrix(X, nrow = 4, ncol = 5)##建立矩陣,上到下再左到右
+ matrix(X, nrow = 4, ncol = 5, byrow = TRUE)##建立矩陣,左到右再上到下
+ colnames(M1) <- c("c1", "c2", "c3", "c4", "c5")##對column命名
+ M1
+ M1[3, 1] ##[列,行]
+ M1[9] #從上往下數再由左到右第9個值
+```
+ 
+### 7.迴圈
+```{r}
+ ##for迴圈
+ ##for(index in vector){
+ ##
+ ##}
+ v<-c(1:6)
+ for(k in v){
+  print(2*k+1)
+ }
+ ##don't know how long
+ ##when change the number in vector, make sure that the vector is empty,
+ ##or the wrong number will still store in the vector
+ odd1<-c()
+ for(k in v){
+  odd1<-c(odd1,2*k+1)
+  print(odd1)
+ }
+ odd1
+ #know how long
+ odd2<-rep(NA,6)
+ for(k in v){
+  odd2[k]<-2*k+1
+  print(odd2)
+ }
+ odd2
+ ##while迴圈
+ ##while(condition){
+ ##  
+ ##}
+ k<-3
+ while(k<=11){
+ print(k)
+ k<-k+ 1
+ }
+```
+
+### 8.if
+```{r}
+ #if(condition){
+ #  commands when TRUE
+ #}
+
+ #*
+ #if(condition){
+ #  commands when TRUE
+ #}else{
+ #  commands when FALSE
+ #}
+
+ #*
+ #if(condition){
+ #  commands
+ #}else if(condition){
+ #  commands
+ #}else{
+ #  commands
+ #}
+ ##there is no condition after"else"
+ ##if there will be a condition after "else" please use "else if"
+
+ #ifelse(a==b,TRUE,FALSE)
+ basket<-c("r","b","y","y","y","r","r","b")
+ n.basket<-c(0,0,0)
+ for(i in 1:length(basket)){
+  if(basket[i]=="r"){
+    n.basket[1]<-n.basket[1]+1
+  }else if(basket[i]=="b"){
+    n.basket[2]<-n.basket[2]+1
+  }else if(basket[i]=="y"){
+  n.basket[3]<-n.basket[3]+1
+  }
+ }
+```
+
+### 9.repeat & break
+```{r}
+##a
+ set.seed(20191025)##設定隨機種子
+ a<-sample(1:6,1)
+ repeat{
+  if(length(unique(a))<6){
+    a<-c(a,sample(1:6,1))
+   }else{
+    break
+   }
+ }
+ print(length(a))
+##b
+ set.seed(20191025)
+ s<-c()
+ for(i in 1:100){
+  s<-c(s,runif(1))
+  if(sum(s)>3){
+    print(i)
+    break
+   }
+ } 
+ ##做法a和b結果相同
+```
+
+### 10.function
+```{r}
+ ##cat & paste
+ m<-c("blue","green","red","orange")
+ paste(m)
+ cat(m)
+ ##set a function
+ perfect.number<-function(n){
+  k<-1
+  res<-c()
+  while(k<n){
+    fac<-c()
+    for(j in 1:k){
+      if((k%%j)==0) fac<-c(fac,j)
+    }
+    if(k==sum(fac[-length(fac)])){
+      cat(paste(k,"=",sep=" "),
+          paste(fac[-length(fac)],collapse="+"),"\n")
+      res<-c(res,k)
+    }
+    k<-k+1
+   }
+   return(k)
+ }
+ perfect.number(1000)
+ ##list
+ L<-list(a=2,b=c(1,3,5,7),c=c("red","blue"))
+ L$a ## $:接元素的名稱
+ L[2]
+ L[[2]] ##[[]]:接元素的位置或名稱
+ L[["c"]]
+```
+
+### 11.dataframe
+```{r}
+ #as.data.frame()   short time
+ x<-matrix(NA,3,3)
+ x[,1]<-c("red","yellow","blue")
+ x[,2]<-c(1,2,3)
+ x[,3]<-c(4,5,6)
+ colnames(x)<-c("colors","numbers","more.numbers")
+ x
+ y<-data.frame(x)
+ y
+ y$colors
+ y$numbers
+ #x$colors    matrix cannot use $ but dataframe can
+ colors<-c("red","yellow","blue")
+ numbers<-c(1,2,3)
+ colors.and.numbers<-data.frame(colors,numbers,more.numbers=c(4,5,6),
+                               stringsAsFactors = FALSE)
+ str(colors.and.numbers)
+ #data1<-data.frame(colors,numbers,more.numbers=c(4,5,6))
+ #data1<-rbind(data1,c("black",3,5))     compare with data2
+ data2<-data.frame(colors,numbers,more.numbers=c(4,5,6),
+                  stringsAsFactors = FALSE)
+ data2<-rbind(data2,c("black",3,5)) 
+ data2
+ str(data2)
+```
+
+
+### 12.畫圖
+```{r, fig.width = 10, fig.height = 8}
+par(mfrow=c(2,2))
+x<- c(0: 10)
+#1
+plot(x, dbinom(x, size = 10, prob = .2), xlim = c(0, 10), ylim = c(0, 0.4), type = "h",
+     ylab = "pmf", col = "red", lty = 8)
+par(new = TRUE)
+plot(x, dbinom(x, size = 10, prob = .2), xlim = c(0, 10), ylim = c(0, 0.4), type = "p",
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", pch = 17)
+par(new = TRUE)
+plot(x, dbinom(x, size = 10, prob = .5), xlim = c(0, 10), ylim = c(0, 0.4), type = "h",
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "blue", lty = 4)
+par(new = TRUE)
+plot(x, dbinom(x, size = 10, prob = .5), xlim = c(0, 10), ylim = c(0, 0.4), type = "p",
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "blue", pch = 8)
+par(new = TRUE)
+plot(x, dbinom(x, size = 10, prob = .7), xlim = c(0, 10), ylim = c(0, 0.4), type = "h",
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "black")
+par(new = TRUE)
+plot(x, dbinom(x, size = 10, prob = .7), xlim = c(0, 10), ylim = c(0, 0.4), type = "p",
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "",col="black", pch = 16)
+legend( "topright", c("p=0.7", "p=0.5", "p=0.2"),
+       col = c("black", "blue", "red"), lty = c( 1, 4, 8),pch = c(16, 8, 17))
+title(expression("Binomial(n, p) with n = 10"))
+#2
+curve(dgamma(x, shape = 1, rate = 3, log = FALSE),xlim = c(0, 5), ylim = c(0, 3.0),
+      ylab = "pdf")
+par(new = TRUE)
+curve(dgamma(x, shape = 2, rate = 3, log = FALSE),xlim = c(0, 5), ylim = c(0, 3.0),
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
+par(new = TRUE)
+curve(dgamma(x, shape = 3, rate = 3, log = FALSE),xlim = c(0, 5), ylim = c(0, 3.0),
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "blue", lty = 4)
+par(new = TRUE)
+curve(dgamma(x, shape = 5, rate = 3, log = FALSE),xlim = c(0, 5), ylim = c(0, 3.0),
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "gray", lty = 11)
+legend("topright", c(expression(paste(alpha, "=1")), expression(paste(alpha, "=2")),
+                     expression(paste(alpha, "=3")),expression(paste(alpha, "=5"))),
+       col = c("black", "red","blue","grey"), lty = c(1, 2, 4, 11))
+title(expression(paste("Gamma(", alpha , ", ", lambda, ") with ", lambda, " = 3")))
+#3
+curve(dnorm(x, mean = 5, sd = 1), xlim = c(0, 20), ylim = c(0, 0.4), ylab = "pdf",
+      lab = c(3, 5, 7))
+par(new = TRUE)
+curve(dnorm(x, mean = 10, sd = 1), xlim = c(0, 20), ylim = c(0, 0.4),
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
+par(new = TRUE)
+curve(dnorm(x, mean = 12, sd = 1), xlim = c(0, 20), ylim = c(0, 0.4),
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "blue", lty = 4)
+par(new = TRUE)
+curve(dnorm(x, mean = 14, sd = 1), xlim = c(0, 20), ylim = c(0, 0.4),
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "grey", lty = 11)
+legend("topright", c(expression(paste(mu, "=5")), expression(paste(mu, "=10")),
+                     expression(paste(mu, "=12")),expression(paste(mu, "=14"))),
+       col = c("black", "red", "blue", "grey"), lty = c(1, 2, 4, 11))
+title(expression(paste("N(", mu, ", ", sigma^2, ") with ",sigma^2, " =1 ")))
+#4
+curve(dnorm(x, mean = 0, sd = 0.5), xlim = c(-8, 8), ylim = c(0, 0.8),ylab = "pdf",
+      lab = c(3, 5, 7))
+par(new = TRUE)
+curve(dnorm(x, mean = 0, sd = 1), xlim = c(-8, 8), ylim = c(0, 0.8),
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "red", lty = 2)
+par(new = TRUE)
+curve(dnorm(x, mean = 0, sd = 2), xlim = c(-8, 8), ylim = c(0, 0.8),
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "blue", lty = 4)
+par(new = TRUE)
+curve(dnorm(x, mean = 0, sd = 3), xlim = c(-8, 8), ylim = c(0, 0.8),
+      xaxt = "n", yaxt = "n", xlab = "", ylab = "", col = "grey", lty = 11)
+legend("topright", c(expression(paste(sigma, "=0.5")), expression(paste(sigma, "=1")),
+                     expression(paste(sigma, "=2")), expression(paste(sigma, "=3"))),
+       col = c("black", "red","blue","grey"), lty = c(1, 2, 4, 11))
+title(expression(paste("N(", mu, ", ", sigma^2, ") with ", mu, " = 0")))
+
+``` 
+
+### 13.rmarkdown
+
+$$\bar{x} = \frac{\sum_{i=1}^{n} x_i}{n} $$
+
+$$\alpha, \beta, \theta, \lambda, \pi, \tau, \Gamma, \gamma, \rho$$
+Define $X = A+B$
+
+* unordered list
+* item 2
+  + sub-item 1
+  + sub 2
+  
+1. 123
+2. 456
+  a. 1
+  b. 2
+
+Table Header | Second Header
+------------- | -------------
+Table Cell | Cell 2
+Cell 3 | Cell 4
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{c|cc}
+      \hline
+      $x_j$ & 0 & 1 \\
+      \hline
+      $p_j$ & 0.3 & 0.7 \\
+      \hline
+    \end{tabular}
+    \caption{Random variable $X$ with its probability}
+\end{table}
+
+$\left[
+\begin{array}{cc}
+A & B \\
+C & D \\
+\end{array}
+\right]$
+
+
+14 times 16 equals `r 14 * 16`.
+
+### 14. evaluation of matrix
+```{r}
+A<-matrix(c(0:3),2,2)
+A
+A+5
+A-2
+B<-matrix(c(6:9),2,2)
+B
+A+B
+A*B #element times element, eg:[1,1]*[1,1]
+A %*% B #matix times matix, eg: matrix A *matix B
+C<-matrix(c(1:9),3,3)
+C
+colSums(C);rowSums(C)
+colMeans(C);rowMeans(C)
+t(A) #transpose of A
+diag(A) #diagnose ofA
+det(A) #determinent of A
+solve(A)
+D <- matrix(rnorm(9), 3 ,3)
+D
+eig.D <- eigen(D)
+eig.D$values
+eig.D$vectors
+```
